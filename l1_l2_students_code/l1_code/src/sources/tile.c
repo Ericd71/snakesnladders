@@ -23,7 +23,6 @@ void init_tile(Tile* tile, int position) {
  */
 int get_position(Tile* tile) {
     return (tile->position);
-    return ERROR;
 }
 
 /**
@@ -36,7 +35,6 @@ int get_position(Tile* tile) {
  */
 int get_target_position(Tile* tile) {
     return tile->target;
-    return ERROR;
 }
 
 /**
@@ -55,7 +53,6 @@ int get_target_position(Tile* tile) {
          tile->target = target_position;
          return SUCCESS;
      }
-    return ERROR;
 }
 
 /**
@@ -66,6 +63,7 @@ int get_target_position(Tile* tile) {
  * Post: 
  */
 void clear_target_position(Tile* tile) {
+    tile->target = EMPTY_TARGET;
 }
 
 /**
@@ -83,7 +81,6 @@ int is_ladder(Tile* tile) {
     else{
         return FALSE;
     }
-    return ERROR;
 }
 
 /**
@@ -98,5 +95,4 @@ int is_snake(Tile* tile) {
     if ((tile->target < tile->position) && (tile->target != EMPTY_TARGET))
         return TRUE;
     return FALSE;
-    return ERROR;
 }

@@ -264,6 +264,13 @@ int init_basic_board(Board* board) {
  * @return SUCCESS if all the input values are valid, INVALID_TILE_DATA otherwise.
  */
 int check_tile_data(int position, char type, int target, int board_size) {
+    if (position < 1 || position > board_size)
+        return INVALID_TILE_DATA;
+    if (type != 's' && type != 'l') //check if it's not a snake or ladder
+        return INVALID_TILE_DATA;
+    if (target < 1 || target > board_size)
+        return INVALID_TILE_DATA;
+    return SUCCESS;
     return ERROR;
 }
 

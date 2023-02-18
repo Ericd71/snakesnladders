@@ -12,6 +12,9 @@
  * Post:
  */
 void init_state(State* state, Board* board) {
+    state->curr_pos = 0;
+    state->game_finished = FALSE;
+    state->board = *board;
 }
 
 /**
@@ -24,6 +27,7 @@ void init_state(State* state, Board* board) {
  * Post:
  */
 void set_current_position(State* state, int position) {
+    state->curr_pos = position;
 }
 
 /**
@@ -36,7 +40,7 @@ void set_current_position(State* state, int position) {
  * Post:
  */
 int get_current_position(State* state) {
-    return ERROR;
+    return state->curr_pos;
 }
 
 /**
@@ -49,6 +53,7 @@ int get_current_position(State* state) {
  * Post:
  */
 void set_finished(State* state, int finished) {
+    state->game_finished = finished;
 }
 
 /**
@@ -60,7 +65,9 @@ void set_finished(State* state, int finished) {
  * Post:
  */
 int is_finished(State* state) {
-    return ERROR;
+    if (state->game_finished)
+        return TRUE;
+    return FALSE;
 }
 
 /**

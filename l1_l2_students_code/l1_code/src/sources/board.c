@@ -23,7 +23,7 @@ int init_board(Board* board, int rows, int columns) {
     }
     int pos = 0;
     while (pos < rows * columns) {
-        init_tile(&board->tiles[rows][columns], pos)
+        init_tile(&board->tiles[rows][columns], pos);
     }
     return INVALID_BOARD_DIMENSIONS;
 }
@@ -38,17 +38,17 @@ int init_board(Board* board, int rows, int columns) {
  */
 int get_rows(Board* board) {
     return (board->rows);
-    return ERROR;
 }
 
 /**
  * TODO (2nd submission): Sets the number of rows of the board.
  * @param board The board to be queried.
  *
- * Pre:
- * Post:
+ * Pre: The board is not NULL and rows is bigger than 0
+ * Post: The numbers of rows of board
  */
 void set_rows(Board* board, int rows) {
+    board->rows = rows;
 }
 
 /**
@@ -61,7 +61,6 @@ void set_rows(Board* board, int rows) {
  */
 int get_columns(Board* board) {
     return (board->columns);
-    return ERROR;
 }
 
 /**
@@ -72,6 +71,7 @@ int get_columns(Board* board) {
  * Post:
  */
 void set_columns(Board* board, int columns) {
+    board->columns = columns;
 }
 
 /**
@@ -82,9 +82,8 @@ void set_columns(Board* board, int columns) {
  * Pre:
  * Post:
  */
-int get_size(Board* board) { // check if it's okay
-    return get_rows(board) + get_columns((board));
-    return ERROR;
+int get_size(Board* board) {
+    return (get_rows(board) * get_columns((board)));
 }
 
 /**
@@ -93,10 +92,11 @@ int get_size(Board* board) { // check if it's okay
  * @param board The board from which the tile should be retrieved.
  * @param position The position of the tile.
  * @return The (reference to the) tile of the board corresponding to the position if valid, NULL otherwise.
- *
- * Pre:
- * Post:
+ * Pre: The board is not NULL. The position is between 1 and the board's size, the size included.
+ * Post: It will return a pointer to the tile (Tile*) if the position is valid, it will return NULL otherwise.
  */
 Tile* get_tile_at(Board *board, int position) {
-    return NULL;
+    int row = position / get_columns(board);
+    int col = position % get_columns(board);
+    return &(board->tiles[row][col]);
 }
