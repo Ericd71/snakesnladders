@@ -1,0 +1,3 @@
+C:/Users/didac/CLionProjects/snakesnladders-main (1)/snakesnladders-main/l1_l2_students_code/l1_code/cmake-build-debug/CMakeFiles/snakesnladders.dir
+C:/Users/didac/CLionProjects/snakesnladders-main (1)/snakesnladders-main/l1_l2_students_code/l1_code/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/didac/CLionProjects/snakesnladders-main (1)/snakesnladders-main/l1_l2_students_code/l1_code/cmake-build-debug/CMakeFiles/rebuild_cache.dir
