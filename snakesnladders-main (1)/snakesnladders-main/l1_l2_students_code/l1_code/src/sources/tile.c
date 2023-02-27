@@ -5,7 +5,7 @@
  * @param tile The tile to be initialized.
  * @param position The position of the tile.
  *
- * Pre: To have tile (structure type "Tile") with, at least, the fields "position" (int) and "target" (int).
+ * Pre: To have tile (structure type "Tile") with, at least, the fields "position" (int) and "target" (int). Also, position must be >= 0
  * Post: Having set the fields "position" and "target" of the structure tile to the values of "position" and "EMPTY_TARGET" respectively.
  */
 void init_tile(Tile* tile, int position) {
@@ -31,7 +31,7 @@ int get_position(Tile* tile) {
  * @return The position the tile targets or EMPTY_TARGET, if does not target another tile.
  *
  * Pre: Having tile (Type structure "Tile") with, at least, the field "target".
- * Post: Having returned the value of the field "target" of the tile structure
+ * Post: Having returned the value of the field "target" of the tile structure in case its value is different than 0.
  */
 int get_target_position(Tile* tile) {
     if (tile->target != 0){
@@ -64,8 +64,8 @@ int get_target_position(Tile* tile) {
  * TODO (2nd submission): Clears the tile target position, setting its value to EMPTY_TARGET.
  * @param tile The tile to be modified.
  *
- * Pre: 
- * Post: 
+ * Pre: Having tile (Type structure "Tile") with, at least, the field "target"
+ * Post: Having set the value of the field "target" of the tile structure to EMPTY_TARGET.
  */
 void clear_target_position(Tile* tile) {
     tile->target = EMPTY_TARGET;
@@ -76,8 +76,8 @@ void clear_target_position(Tile* tile) {
  * @param tile The tile to be queried.
  * @return TRUE if the tile contains a ladder.
  *
- * Pre: 
- * Post: 
+ * Pre: Having tile (Type structure "Tile") with, at least, the fields "target" and "position".
+ * Post: Having returned TRUE in case of the tile containing a ladder (target > position and target != EMPTY_TARGET) or FALSE otherwise.
  */
 int is_ladder(Tile* tile) {
     if ((tile->target > tile->position) && (tile->target != EMPTY_TARGET)){
@@ -93,11 +93,13 @@ int is_ladder(Tile* tile) {
  * @param tile The tile to be queried.
  * @return TRUE if the tile contains a snake, FALSE otherwise.
  *
- * Pre:
- * Post: 
+ * Pre: Having tile (Type structure "Tile") with, at least, the fields "target" and "position".
+ * Post: Having returned TRUE in case of the tile containing a ladder (target < position and target != EMPTY_TARGET) or FALSE otherwise.
  */
 int is_snake(Tile* tile) {
     if ((tile->target < tile->position) && (tile->target != EMPTY_TARGET))
         return TRUE;
-    return FALSE;
+    else{
+        return FALSE;
+    }
 }

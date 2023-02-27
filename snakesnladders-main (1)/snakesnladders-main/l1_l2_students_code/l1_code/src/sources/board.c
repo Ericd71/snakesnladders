@@ -87,7 +87,7 @@ void set_columns(Board* board, int columns) {
  *       of get_rows(board) times get_columns(board).
  */
 int get_size(Board* board) {
-    return (get_rows(board) * get_columns(board));
+    return board->rows * board->columns;
 }
 
 /**
