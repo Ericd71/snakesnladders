@@ -16,18 +16,31 @@
  * Post: Returning the integer INVALID_BOARD_DIMENSIONS (-1) and having the board and the tiles initialized.
  */
 int init_board(Board* board, int rows, int columns) {
-    struct Board;
-    if ((rows < MAX_ROWS) || (columns < MAX_COLUMNS)){
-        if ((rows < 1) || (columns < 2)){
-            board->rows = rows;
-            board->columns = columns;
+    if (rows < 1 || rows > MAX_ROWS || columns < 2 || columns>MAX_COLUMNS){
+        return ERROR;
+    } else{
+        set_rows(board,rows);
+        set_columns(board,columns);
+        int i, j, pos;
+        Tile *tile;
+        for (i=0; i<MAX_ROWS; i++){
+            for(j=0; j<MAX_COLUMNS;j++){
+                tile = &board->tiles[i][j];
+                clear_target_position(tile);
+                if (i < rows && j < columns){
+                    pos = j + i*columns;
+                    // move from to left to right if row is even
+                    if (i % 2 == 0){
+                        init_tile(tile,pos);
+                    } else {
+                        tile = &board->tiles[i][columns -1 - j];
+                        init_tile(tile,pos);
+                    }
+                }
+            }
         }
+        return SUCCESS;
     }
-    int pos = 0;
-    while (pos < rows * columns) {
-        init_tile(&board->tiles[rows][columns], pos);
-    }
-    return INVALID_BOARD_DIMENSIONS;
 }
 
 /**

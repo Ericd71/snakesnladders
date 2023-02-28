@@ -8,7 +8,7 @@ typedef struct {
     // ToDo: 1st submission
     int curr_pos;
     int game_finished;
-    Board board; //variable board to access the Board structure
+    Board* board; //variable board to access the Board structure
 } State;
 
 void init_state(State* state, Board* board);

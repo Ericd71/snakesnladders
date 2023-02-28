@@ -14,7 +14,7 @@
 void init_state(State* state, Board* board) {
     state->curr_pos = 0;
     state->game_finished = FALSE;
-    state->board = *board;
+    state->board = board;
 }
 
 /**
@@ -53,14 +53,7 @@ int get_current_position(State* state) {
  * Post: Having set the field "game_finished" to the value of the variable finished (which can be either TRUE or FALSE).
  */
 void set_finished(State* state, int finished) {
-    if (state->curr_pos >= ){ //Acabar if. Es refereix a posició més gran o igual que la posició de l'últim tile
-        finished = TRUE;
-        state->game_finished = finished;
-    }
-    else if (state->curr_pos < ){ //Acabar else if. Es refereix a posició més petita que la posició de l'últim tile
-        finished = FALSE;
-        state->game_finished = finished;
-    }
+    state->game_finished = finished;
 }
 
 /**
@@ -74,8 +67,7 @@ void set_finished(State* state, int finished) {
 int is_finished(State* state) {
     if (state->game_finished == TRUE){
         return TRUE;
-    }
-    else{
+    }else{
         return FALSE;
     }
 }
@@ -92,16 +84,29 @@ int is_finished(State* state) {
  * Pre: Having a structure type "State" with the field "curr_pos"
  * Post: Having updated the state of the current position in function of the dice value and set the state to finished if the current position is equal or greater than the position of the last tile.
  */
+void set_new_current_position(State* state, int position) {
+    state->curr_pos += position;
+}
 void move(State* state, int dice_value) {
-    state->curr_pos = state->curr_pos + dice_value;
-    if (state->curr_pos ){ // Acabar if. Intenta dir if curr_pos es troba en un tile amb ladder...
-        printf("You found a ladder!");
-        state->curr_pos = ; // trobar manera de settejar a la posició on porta la ladder
+    set_new_current_position(state,dice_value);
+    int size;
+    size = state->board->rows * state->board->columns;
+    if (state->curr_pos < size-1){
+        Tile *tile;
+        tile = get_tile_at(state->board,state->curr_pos);
+        while (tile->target != EMPTY_TARGET && tile->target < size-1){
+            if (tile->position < tile->target){
+                printf("You found a ladder!!\n\r");
+                set_current_position(state,tile->target);
+            } else {
+                printf("You found a snake !!\n\r");
+                set_current_position(state,tile->target);
+            }
+            tile = get_tile_at(state->board,state->curr_pos);
+        }
+    } else {
+        int flag;
+        flag = TRUE;
+        set_finished(state,flag);
     }
-    if (state->curr_pos ){ // Acabar if. Intenta dir if curr_pos es troba en un tile amb snake...
-        printf("You found a snake!");
-        state->curr_pos = ; // trobar manera de settejar a la posició on porta la snake
-    }
-    int finished;
-    set_finished(state, finished);
 }

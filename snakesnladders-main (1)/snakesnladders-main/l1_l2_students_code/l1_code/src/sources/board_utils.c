@@ -280,9 +280,19 @@ int check_tile_data(int position, char type, int target, int board_size) {
  *      - INVALID_TILE_DATA if an invalid tile data is found (wrong format, invalid values, etc.)
  */
 int read_tile_line(Board* board, FILE* fd) {
-    if (fscanf(fd, "%d %c %d", &position, &type, &target) != 3)
+    BoardTile* bTile;
+    int position, target;
+    char type;
+    if (fscanf(fd, "%d %c %d", &position, &type, &target) != 3) {
         return INVALID_TILE_LINE;
-    check_tile_data(position, type, target, board->rows * board->columns);
+    } else{
+        int size = get_size(board);
+        if (check_tile_data(position, type, target, size) > 0) {
+            get_tile_at(board, position)->target = target;
+        } else{
+            return INVALID_TILE_DATA;
+          }
+      }
     return SUCCESS;
 }
 
@@ -298,14 +308,19 @@ int read_tile_line(Board* board, FILE* fd) {
  *      - INVALID_TILE_DATA if an invalid tile data is found (wrong format, invalid values, etc.)
  */
 int read_board_file(Board* board, FILE* fd) {
-    int result = fscanf(fd, "%d %d", &board->rows, &board->columns);
-    if (result != 2 || board->rows <= 0 || board->rows > MAX_ROWS || board->columns <= 0 || board->columns > MAX_COLUMNS)
+    char character_x;
+    int result = fscanf(fd, "%d%c%d", &board->rows, &character_x, &board->columns);
+    if (result != 2 || board->rows <= 0 || board->rows > MAX_ROWS || board->columns <= 0 ||
+        board->columns > MAX_COLUMNS || character_x != 'x') {
         return INVALID_BOARD_DIMENSIONS;
-    while (!feof(fd)){
-        read_tile_line(board, fd);
-    }
+    } else {
+        while (!feof(fd)) {
+            read_tile_line(board, fd);
+        }
+        init_board(board, board->rows, board->columns);
+        return SUCCESS;
+      }
 }
-
 /**
  * TODO (2nd submission): Opens the file in path and tries to read a board configuration from it.
  *
@@ -316,9 +331,10 @@ int read_board_file(Board* board, FILE* fd) {
  * Pre: board must be != NULL (Having a structure "board" type Board).
  * Post: Returning ERROR in case the path isn't valid or returning the function "read_board_file" otherwise.
  */
-int load_board(Board* board, char* path) {
+int load_board(Board *board, char *path) {
     FILE *fd = fopen(path, "r");
-    if (fd == NULL)
+    if (fd == NULL) {
         return ERROR;
+    }
     return read_board_file(board, fd);
 }
