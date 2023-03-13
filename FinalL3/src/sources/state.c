@@ -15,6 +15,8 @@ void init_state(State* state, Board* board) {
     state->curr_pos = 0;
     state->game_finished = FALSE;
     state->board = board;
+    Sequence* sequence = NULL;
+    state->sequence = (Sequence *) init_sequence(sequence);
 }
 
 /**
@@ -105,18 +107,24 @@ int move(State* state, int dice_value) {
         flag = TRUE;
         set_finished(state,flag);
     }
+    return 0;
 }
 
 
 /**
  * TODO: Adds a step to the state's sequence, as the last step of it.
  *
- * Pre: state is not NULL
- * Post: Adds a step to the state's sequence, as the last step of it.
+ * Pre: Having a structure type State with field "sequence" . Also, having the integer variables "dice_value" and position.
+ * Post: Having added a step as the "last_step". That is, if the sequence of steps was empty ("first_step" == NULL), having
+ *       created a new step and set it as the "first_step" and "last_step" at the same time since it's the only step in the sequence.
+ *       And, in case there already existed a first step, having created a new step, set it as the last step's next step and as
+ *       the new last step. (Previous "last_step" -> penultimate step so its "next_step" is the new step. And the new step is now
+ *       the "last_step").
+ *       Also, having increased the size of the sequence by one since a new step has been added.
  */
 void add_step(State* state, int dice_value) {
-    int index = state->board->rows * state->board->columns - 1;
-    state->board->tiles[index/state->board->columns][index % state->board->columns].position = dice_value;
+    int position;
+    add_step_as_last(state->sequence, position, dice_value);
 }
 
 
@@ -124,17 +132,12 @@ void add_step(State* state, int dice_value) {
  * Prints the sequence of the state.
  * @param sequence The sequence to be shown.
  *
- * Pre:
- * Post:
+ * Pre: Having a structure State with the field "sequence".
+ * Post: Having printed the dice value and the resulting position of each step in the state sequence.
  */
 void print_state_sequence(State* state) {
-    printf("Sequence: ");
-    for (int i = 0; i < state->board->rows * state->board->columns; i++){
-        printf("%d ", state->board->tiles[i /state->board->columns][i % state->board->columns].position);
-    }
-    printf("\n");
+    print_sequence(state->sequence);
 }
-
 
 /**
  * Clear the state history and init the state again
@@ -144,14 +147,10 @@ void print_state_sequence(State* state) {
  * Post: The state's current position is set to 0, the game_finished flag is set to 0,
  *       and the board is reset to its initial configuration.
  */
-void reset(State *state){
-    if (state == NULL){
-        printf("Error: state pointer is NULL\n");
-        return;
-    }
-    // Reset current position and game_finished flag
+void reset(State *state) {
+    clear_sequence(state->sequence);
     state->curr_pos = 0;
-    state->game_finished = 0;
+    state->game_finished = FALSE;
 
     // Reset board to initial configuration
     int tile_number = 1;
@@ -162,3 +161,4 @@ void reset(State *state){
         }
     }
 }
+

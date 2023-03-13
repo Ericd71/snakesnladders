@@ -1,3 +1,3 @@
-C:/Users/EricDuerr/Downloads/FinalL3/cmake-build-debug/CMakeFiles/snakesnladders.dir
-C:/Users/EricDuerr/Downloads/FinalL3/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/EricDuerr/Downloads/FinalL3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/didac/CLionProjects/FinalL3/cmake-build-debug/CMakeFiles/snakesnladders.dir
+C:/Users/didac/CLionProjects/FinalL3/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/didac/CLionProjects/FinalL3/cmake-build-debug/CMakeFiles/rebuild_cache.dir

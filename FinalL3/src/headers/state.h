@@ -13,6 +13,7 @@ typedef struct {
     int curr_pos;
     int game_finished;
     Board* board; //variable board to access the Board structure
+    Sequence* sequence;
 } State;
 
 void init_state(State* state, Board* board);
